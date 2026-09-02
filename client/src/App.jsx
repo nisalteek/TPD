@@ -18,6 +18,9 @@ import Training from './pages/Training';
 import LessonPlans from './pages/LessonPlans';
 import Feedback from './pages/Feedback';
 import Analytics from './pages/Analytics';
+import TeacherJourney from './pages/TeacherJourney';
+import AchievementWall from './pages/AchievementWall';
+import Goals from './pages/Goals';
 
 function AppLayout({ children }) {
   return (
@@ -114,6 +117,30 @@ export default function App() {
         element={
           <ProtectedRoute>
             <AppLayout><Analytics /></AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/teacher-journey/:id"
+        element={
+          <ProtectedRoute>
+            <AppLayout><TeacherJourney /></AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/achievements"
+        element={
+          <ProtectedRoute>
+            <AppLayout><AchievementWall /></AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/goals"
+        element={
+          <ProtectedRoute>
+            <AppLayout><Goals /></AppLayout>
           </ProtectedRoute>
         }
       />

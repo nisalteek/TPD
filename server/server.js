@@ -26,6 +26,8 @@ app.use('/api/feedback', require('./routes/feedback'));
 app.use('/api/lessonplans', require('./routes/lessonplans'));
 app.use('/api/certificates', require('./routes/certificates'));
 app.use('/api/milestones', require('./routes/milestones'));
+app.use('/api/goals', require('./routes/goals'));
+app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/analytics', require('./routes/analytics'));
 app.use('/api/chatbot', require('./routes/chatbot'));
 
