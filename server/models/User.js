@@ -6,10 +6,10 @@ const UserSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true, minlength: 6, select: true },
-    role: { type: String, enum: ['admin', 'teacher'], default: 'teacher' },
+    role: { type: String, enum: ['admin', 'teacher', 'student'], default: 'teacher' },
     isActive: { type: Boolean, default: true },
 
-    // Teacher profile fields (unused for admin accounts)
+    // Teacher profile fields (unused for admin/student accounts)
     employeeId: { type: String, trim: true },
     subject: { type: String, trim: true },
     department: { type: String, trim: true },
@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema(
     avatarUrl: { type: String, default: '' },
     points: { type: Number, default: 0 }, // gamification score
     badges: [{ type: String }],
+
+    // Student-only field: the one teacher a student has chosen to follow
+    chosenTeacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    gradeLevel: { type: String, trim: true }, // student-only
   },
   { timestamps: true }
 );
