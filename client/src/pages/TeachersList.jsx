@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import GlassCard from '../components/GlassCard';
+import { fireConfetti } from '../utils/confetti';
 
 export default function TeachersList() {
   const [teachers, setTeachers] = useState([]);
@@ -23,6 +25,7 @@ export default function TeachersList() {
     await api.post('/milestones', { ...form, teacher: milestoneModal._id });
     setMilestoneModal(null);
     setForm({ title: '', description: '', type: 'achievement', points: 10 });
+    fireConfetti();
     load();
   };
 
@@ -51,6 +54,9 @@ export default function TeachersList() {
                   </span>
                 </td>
                 <td className="row-actions">
+                  <Link to={`/teacher-journey/${t._id}`} className="btn-ghost">
+                    <i className="fa-solid fa-chart-line"></i> 360°
+                  </Link>
                   <button className="btn-ghost" onClick={() => setMilestoneModal(t)}>
                     <i className="fa-solid fa-award"></i> Award
                   </button>

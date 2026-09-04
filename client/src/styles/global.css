@@ -11,13 +11,49 @@
   --radius: 16px;
   --font-heading: 'Sora', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
+
+  --card-bg: rgba(255, 255, 255, 0.6);
+  --card-border: rgba(255, 255, 255, 0.7);
+  --card-shadow: rgba(15, 23, 42, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.75);
+  --input-border: rgba(15, 23, 42, 0.15);
+  --table-border: rgba(15, 23, 42, 0.07);
 }
+
+/* Dark mode — opt-in via the navbar toggle, preference remembered per device */
+[data-theme='dark'] {
+  --cream: #0b1220;
+  --ink: #e5edf7;
+  --muted: #94a7c4;
+  --card-bg: rgba(23, 33, 54, 0.65);
+  --card-border: rgba(148, 167, 196, 0.16);
+  --card-shadow: rgba(0, 0, 0, 0.45);
+  --input-bg: rgba(15, 23, 42, 0.55);
+  --input-border: rgba(148, 167, 196, 0.22);
+  --table-border: rgba(148, 167, 196, 0.1);
+}
+
+[data-theme='dark'] body {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(2,132,199,0.16), transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(13,148,136,0.14), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(56,189,248,0.08), transparent 50%),
+    linear-gradient(160deg, #0b1220 0%, #0e1830 50%, #0a1420 100%);
+}
+
+[data-theme='dark'] select option { background: #16213a; color: var(--ink); }
+[data-theme='dark'] .status-pill.present,
+[data-theme='dark'] .status-pill.approved,
+[data-theme='dark'] .status-pill.completed,
+[data-theme='dark'] .status-pill.active { background: rgba(47,143,91,0.22); }
+[data-theme='dark'] .badge { background: rgba(13,148,136,0.22); }
 
 * { box-sizing: border-box; }
 
 html, body, #root { height: 100%; }
 
 body {
+  transition: background 0.3s ease;
   margin: 0;
   font-family: var(--font-body);
   color: var(--ink);
@@ -36,14 +72,14 @@ h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--primary); margin
 
 /* Glassmorphism core */
 .glass-card {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--card-bg);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  box-shadow: 0 8px 32px rgba(2, 132, 199, 0.1);
+  box-shadow: 0 8px 32px var(--card-shadow);
   padding: 24px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .glass-card:hover { box-shadow: 0 14px 44px rgba(2, 132, 199, 0.16); }
@@ -74,12 +110,12 @@ input, select, textarea {
   width: 100%;
   padding: 11px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(2, 132, 199, 0.18);
-  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
   font-family: var(--font-body);
   font-size: 0.92rem;
   color: var(--ink);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.3s ease;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -222,8 +258,8 @@ textarea { min-height: 80px; resize: vertical; }
 .form-grid .full-span, .full-span { grid-column: 1 / -1; }
 
 .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-.data-table th { text-align: left; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid rgba(2,132,199,0.12); }
-.data-table td { padding: 12px; border-bottom: 1px solid rgba(2,132,199,0.08); font-size: 0.9rem; }
+.data-table th { text-align: left; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--table-border); }
+.data-table td { padding: 12px; border-bottom: 1px solid var(--table-border); font-size: 0.9rem; }
 
 .badge { background: rgba(13,148,136,0.15); color: var(--accent); padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
 
@@ -416,6 +452,79 @@ textarea { min-height: 80px; resize: vertical; }
 .notif-list li:last-child { border-bottom: none; }
 .notif-list li i { color: var(--accent); font-size: 1rem; margin-top: 2px; width: 18px; }
 .notif-list li p { margin: 0 0 2px; font-size: 0.85rem; }
+
+/* Theme toggle */
+.theme-toggle {
+  width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--input-border);
+  background: var(--input-bg); color: var(--primary); cursor: pointer; font-size: 0.95rem;
+  display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease, background 0.3s ease;
+}
+.theme-toggle:hover { transform: rotate(15deg); }
+
+/* Certificate verification page */
+.verify-result { text-align: center; padding: 10px 0 6px; }
+.verify-result i { font-size: 3rem; margin-bottom: 10px; }
+.verify-valid i { color: var(--success); }
+.verify-invalid i { color: var(--error); }
+.verify-details {
+  margin-top: 18px; text-align: left; border-top: 1px solid var(--table-border); padding-top: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.verify-details div { display: flex; justify-content: space-between; gap: 12px; font-size: 0.9rem; }
+.verify-details span { color: var(--muted); }
+.verify-details strong { color: var(--ink); text-align: right; }
+
+/* Live "Who's In Today" board */
+.today-board { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; }
+.today-board-item { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 72px; }
+.today-avatar-ring {
+  width: 56px; height: 56px; border-radius: 50%; padding: 3px;
+  display: flex; align-items: center; justify-content: center;
+  border: 3px solid rgba(100,116,139,0.25); transition: border-color 0.2s;
+}
+.today-avatar-ring.status-present { border-color: var(--success); }
+.today-avatar-ring.status-late { border-color: var(--accent); }
+.today-avatar-ring.status-absent { border-color: var(--error); }
+.today-avatar-ring.status-leave { border-color: var(--muted); }
+.today-avatar-ring.status-not-marked { border-color: rgba(100,116,139,0.25); border-style: dashed; }
+.today-avatar {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1.1rem;
+}
+.today-name { font-size: 0.78rem; font-weight: 600; color: var(--ink); }
+.today-status-label { font-size: 0.68rem; text-transform: capitalize; color: var(--muted); }
+.today-status-label.status-present { color: var(--success); }
+.today-status-label.status-late { color: var(--accent); }
+.today-status-label.status-absent { color: var(--error); }
+
+/* Weekly Timetable */
+.timetable-scroll { overflow-x: auto; }
+.timetable-grid { width: 100%; border-collapse: collapse; min-width: 640px; }
+.timetable-grid th {
+  text-align: center; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--muted); padding: 10px 8px; border-bottom: 1px solid var(--table-border);
+}
+.timetable-grid td { padding: 6px; border-bottom: 1px solid var(--table-border); text-align: center; }
+.timetable-period-label { font-weight: 700; color: var(--primary); font-size: 0.85rem; }
+.timetable-cell {
+  width: 100%; min-height: 60px; border-radius: 10px; border: 1px dashed var(--input-border);
+  background: transparent; cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px; padding: 6px; font-size: 0.78rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.timetable-cell:hover { background: rgba(2,132,199,0.06); border-color: var(--primary); }
+.timetable-cell.filled {
+  border-style: solid; border-color: rgba(13,148,136,0.35);
+  background: linear-gradient(135deg, rgba(2,132,199,0.08), rgba(13,148,136,0.08));
+}
+.timetable-cell.filled strong { color: var(--ink); font-size: 0.82rem; }
+.timetable-cell.filled span { color: var(--muted); font-size: 0.7rem; }
+.timetable-cell.static { cursor: default; }
+.timetable-cell.static:hover { background: transparent; border-color: var(--input-border); }
+.timetable-cell.filled.static:hover { border-color: rgba(13,148,136,0.35); }
+.timetable-cell i { color: var(--muted); font-size: 0.9rem; }
 
 @media (max-width: 900px) {
   .app-body { flex-direction: column; }

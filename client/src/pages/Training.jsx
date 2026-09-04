@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import { fireConfetti } from '../utils/confetti';
 
 export default function Training() {
   const { user } = useAuth();
@@ -60,6 +61,7 @@ export default function Training() {
     a.download = `Certificate-${record.certificateId}.pdf`;
     a.click();
     window.URL.revokeObjectURL(url);
+    fireConfetti();
   };
 
   return (

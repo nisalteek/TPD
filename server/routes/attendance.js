@@ -1,5 +1,6 @@
 const express = require('express');
 const Attendance = require('../models/Attendance');
+const User = require('../models/User');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -43,6 +44,33 @@ router.get('/', protect, async (req, res) => {
   const teacherId = req.user.role === 'admin' && req.query.teacherId ? req.query.teacherId : req.user._id;
   const records = await Attendance.find({ teacher: teacherId }).sort({ date: -1 }).limit(90);
   res.json(records);
+});
+
+// Admin: live "who's in today" board — every teacher merged with their
+// attendance status for today (or "not-marked" if they haven't checked in)
+router.get('/today', protect, authorize('admin'), async (req, res) => {
+  const date = todayString();
+
+  const [teachers, todayRecords] = await Promise.all([
+    User.find({ role: 'teacher', isActive: true }).select('name subject'),
+    Attendance.find({ date }),
+  ]);
+
+  const byTeacher = {};
+  todayRecords.forEach((r) => { byTeacher[String(r.teacher)] = r; });
+
+  const board = teachers.map((t) => {
+    const record = byTeacher[String(t._id)];
+    return {
+      teacherId: t._id,
+      name: t.name,
+      subject: t.subject,
+      status: record ? record.status : 'not-marked',
+      checkIn: record?.checkIn || null,
+    };
+  });
+
+  res.json(board);
 });
 
 // Admin: mark/adjust attendance manually (e.g. approved leave)

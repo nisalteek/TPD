@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 
@@ -16,6 +17,7 @@ function timeAgo(dateStr) {
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [open, setOpen] = useState(false);
@@ -43,6 +45,10 @@ export default function Navbar() {
         <span>Teacher Performance &amp; Development</span>
       </div>
       <div className="navbar-user">
+        <button className="theme-toggle" onClick={toggleTheme} title="Toggle dark mode">
+          <i className={`fa-solid ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`}></i>
+        </button>
+
         <div className="notif-wrap" ref={panelRef}>
           <button className="btn-icon notif-bell" onClick={() => setOpen((o) => !o)}>
             <i className="fa-solid fa-bell"></i>

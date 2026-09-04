@@ -76,7 +76,7 @@ export default function TeacherDashboard() {
             <Link to="/attendance" className="btn-secondary"><i className="fa-solid fa-calendar-check"></i> Mark Attendance</Link>
             <Link to="/lesson-plans" className="btn-secondary"><i className="fa-solid fa-book-open"></i> New Lesson Plan</Link>
             <Link to="/training" className="btn-secondary"><i className="fa-solid fa-certificate"></i> View Certificates</Link>
-            <Link to="/analytics" className="btn-secondary"><i className="fa-solid fa-chart-line"></i> View Analytics</Link>
+            <Link to={`/teacher-journey/${user.id}`} className="btn-secondary"><i className="fa-solid fa-route"></i> My Journey</Link>
           </div>
         </GlassCard>
       </div>

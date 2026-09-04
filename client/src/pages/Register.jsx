@@ -44,7 +44,7 @@ export default function Register() {
         <form onSubmit={submit} className="form-grid">
           <div>
             <label>Full name</label>
-            <input required value={form.name} onChange={update('name')} placeholder="Nisal Theekshana" />
+            <input required value={form.name} onChange={update('name')} placeholder="Jane Doe" />
           </div>
           <div>
             <label>Email address</label>

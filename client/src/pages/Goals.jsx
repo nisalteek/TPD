@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import { fireConfetti } from '../utils/confetti';
 
 const CATEGORY_LABELS = {
   'teaching-craft': 'Teaching Craft',
@@ -50,6 +51,7 @@ export default function Goals() {
 
   const updateProgress = async (goal, progress) => {
     await api.put(`/goals/${goal._id}`, { progress, status: progress >= 100 ? 'achieved' : 'in-progress' });
+    if (progress >= 100 && goal.progress < 100) fireConfetti();
     load();
   };
 

@@ -80,6 +80,25 @@ router.get('/school', protect, authorize('admin'), async (req, res) => {
     .sort({ points: -1 })
     .limit(5);
 
+  // Rating distribution across the whole school, for the admin chart
+  const ratingDistribution = [1, 2, 3, 4, 5].map((star) => ({
+    star: `${star}★`,
+    count: feedback.filter((f) => f.rating === star).length,
+  }));
+
+  // Attendance trend for the last 7 calendar days, for the admin chart
+  const attendanceTrend = [];
+  for (let i = 6; i >= 0; i -= 1) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = d.toISOString().slice(0, 10);
+    const dayRecords = attendance.filter((a) => a.date === dateStr);
+    attendanceTrend.push({
+      date: d.toLocaleDateString('en-US', { weekday: 'short' }),
+      present: dayRecords.filter((a) => a.status === 'present' || a.status === 'late').length,
+    });
+  }
+
   res.json({
     teacherCount,
     avgRating,
@@ -88,6 +107,8 @@ router.get('/school', protect, authorize('admin'), async (req, res) => {
     attendanceMarkedToday: todayRecords.length,
     completedTrainings: training.filter((t) => t.status === 'completed').length,
     topTeachers,
+    ratingDistribution,
+    attendanceTrend,
   });
 });
 

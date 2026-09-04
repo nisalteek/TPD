@@ -21,6 +21,8 @@ import Analytics from './pages/Analytics';
 import TeacherJourney from './pages/TeacherJourney';
 import AchievementWall from './pages/AchievementWall';
 import Goals from './pages/Goals';
+import Verify from './pages/Verify';
+import Timetable from './pages/Timetable';
 
 function AppLayout({ children }) {
   return (
@@ -55,6 +57,7 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/verify/:certificateId" element={<Verify />} />
 
       <Route
         path="/"
@@ -141,6 +144,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <AppLayout><Goals /></AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/timetable"
+        element={
+          <ProtectedRoute>
+            <AppLayout><Timetable /></AppLayout>
           </ProtectedRoute>
         }
       />
