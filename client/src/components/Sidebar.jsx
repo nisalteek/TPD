@@ -28,11 +28,13 @@ export default function Sidebar() {
     { to: `/teacher-journey/${user?.id}`, icon: 'fa-route', label: 'My Journey' },
     { to: '/goals', icon: 'fa-bullseye', label: 'Growth Goals' },
     { to: '/timetable', icon: 'fa-table-cells', label: 'Timetable' },
+    { to: '/wellbeing', icon: 'fa-heart-pulse', label: 'Wellbeing Check-in' },
     { to: '/attendance', icon: 'fa-calendar-check', label: 'Attendance' },
     { to: '/training', icon: 'fa-certificate', label: 'Training & Certificates', badge: readyCertificates },
     { to: '/lesson-plans', icon: 'fa-book-open', label: 'Lesson Plans' },
     { to: '/feedback', icon: 'fa-comments', label: 'Feedback' },
     { to: '/analytics', icon: 'fa-chart-line', label: 'Analytics' },
+    { to: '/resources', icon: 'fa-file-pdf', label: 'Resource Library' },
     { to: '/achievements', icon: 'fa-trophy', label: 'Achievement Wall' },
   ];
 
@@ -41,15 +43,24 @@ export default function Sidebar() {
     { to: '/teachers', icon: 'fa-users', label: 'Teachers' },
     { to: '/goals', icon: 'fa-bullseye', label: 'Growth Goals' },
     { to: '/timetable', icon: 'fa-table-cells', label: 'Timetable' },
+    { to: '/wellbeing', icon: 'fa-heart-pulse', label: 'Wellbeing Pulse' },
     { to: '/training', icon: 'fa-certificate', label: 'Training & Certificates' },
     { to: '/lesson-plans', icon: 'fa-book-open', label: 'Lesson Plans', badge: pendingPlans },
     { to: '/attendance', icon: 'fa-calendar-check', label: 'Attendance' },
     { to: '/feedback', icon: 'fa-comments', label: 'Feedback' },
     { to: '/analytics', icon: 'fa-chart-line', label: 'School Analytics' },
+    { to: '/resources', icon: 'fa-file-pdf', label: 'Resource Library' },
     { to: '/achievements', icon: 'fa-trophy', label: 'Achievement Wall' },
   ];
 
-  const links = user?.role === 'admin' ? adminLinks : teacherLinks;
+  const studentLinks = [
+    { to: '/', icon: 'fa-gauge-high', label: 'Dashboard' },
+    { to: '/find-teacher', icon: 'fa-magnifying-glass', label: 'Find a Teacher' },
+    { to: '/achievements', icon: 'fa-trophy', label: 'Achievement Wall' },
+    { to: '/resources', icon: 'fa-file-pdf', label: 'Resource Library' },
+  ];
+
+  const links = user?.role === 'admin' ? adminLinks : user?.role === 'student' ? studentLinks : teacherLinks;
 
   return (
     <aside className="sidebar glass-card">

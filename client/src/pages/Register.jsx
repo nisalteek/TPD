@@ -6,17 +6,20 @@ export default function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({
+    role: 'teacher',
     name: '',
     email: '',
     password: '',
     subject: '',
     department: '',
     employeeId: '',
+    gradeLevel: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const update = (field) => (e) => setForm({ ...form, [field]: e.target.value });
+  const isStudent = form.role === 'student';
 
   const submit = async (e) => {
     e.preventDefault();
@@ -37,10 +40,20 @@ export default function Register() {
       <div className="auth-card glass-card wide">
         <div className="auth-brand">
           <i className="fa-solid fa-graduation-cap"></i>
-          <h1>Create Teacher Account</h1>
+          <h1>Create an Account</h1>
           <p>Join the professional development platform</p>
         </div>
         {error && <div className="alert-error">{error}</div>}
+
+        <div className="role-toggle">
+          <button type="button" className={`role-toggle-option ${form.role === 'teacher' ? 'active' : ''}`} onClick={() => setForm({ ...form, role: 'teacher' })}>
+            <i className="fa-solid fa-chalkboard-user"></i> Teacher
+          </button>
+          <button type="button" className={`role-toggle-option ${form.role === 'student' ? 'active' : ''}`} onClick={() => setForm({ ...form, role: 'student' })}>
+            <i className="fa-solid fa-user-graduate"></i> Student
+          </button>
+        </div>
+
         <form onSubmit={submit} className="form-grid">
           <div>
             <label>Full name</label>
@@ -54,18 +67,29 @@ export default function Register() {
             <label>Password</label>
             <input type="password" required minLength={6} value={form.password} onChange={update('password')} placeholder="At least 6 characters" />
           </div>
-          <div>
-            <label>Employee ID</label>
-            <input value={form.employeeId} onChange={update('employeeId')} placeholder="EMP-0042" />
-          </div>
-          <div>
-            <label>Subject</label>
-            <input value={form.subject} onChange={update('subject')} placeholder="Mathematics" />
-          </div>
-          <div>
-            <label>Department</label>
-            <input value={form.department} onChange={update('department')} placeholder="Secondary School" />
-          </div>
+
+          {isStudent ? (
+            <div>
+              <label>Grade Level</label>
+              <input value={form.gradeLevel} onChange={update('gradeLevel')} placeholder="Grade 10" />
+            </div>
+          ) : (
+            <>
+              <div>
+                <label>Employee ID</label>
+                <input value={form.employeeId} onChange={update('employeeId')} placeholder="EMP-0042" />
+              </div>
+              <div>
+                <label>Subject</label>
+                <input value={form.subject} onChange={update('subject')} placeholder="Mathematics" />
+              </div>
+              <div>
+                <label>Department</label>
+                <input value={form.department} onChange={update('department')} placeholder="Secondary School" />
+              </div>
+            </>
+          )}
+
           <button className="btn-primary full-span" type="submit" disabled={loading}>
             {loading ? 'Creating account…' : 'Create Account'}
           </button>

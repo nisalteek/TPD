@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import TeacherDashboard from './pages/TeacherDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import StudentDashboard from './pages/StudentDashboard';
 import TeachersList from './pages/TeachersList';
 import TeacherProfile from './pages/TeacherProfile';
 import Attendance from './pages/Attendance';
@@ -23,6 +24,10 @@ import AchievementWall from './pages/AchievementWall';
 import Goals from './pages/Goals';
 import Verify from './pages/Verify';
 import Timetable from './pages/Timetable';
+import Resources from './pages/Resources';
+import Wellbeing from './pages/Wellbeing';
+import FindTeacher from './pages/FindTeacher';
+import Portfolio from './pages/Portfolio';
 
 function AppLayout({ children }) {
   return (
@@ -36,6 +41,8 @@ function AppLayout({ children }) {
     </div>
   );
 }
+
+const STAFF_ONLY = ['admin', 'teacher'];
 
 export default function App() {
   const { user } = useAuth();
@@ -53,17 +60,21 @@ export default function App() {
 
   if (booting) return <Loader />;
 
+  const rootDashboard =
+    user?.role === 'admin' ? <AdminDashboard /> : user?.role === 'student' ? <StudentDashboard /> : <TeacherDashboard />;
+
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/verify/:certificateId" element={<Verify />} />
+      <Route path="/portfolio/:teacherId" element={<Portfolio />} />
 
       <Route
         path="/"
         element={
           <ProtectedRoute>
-            <AppLayout>{user?.role === 'admin' ? <AdminDashboard /> : <TeacherDashboard />}</AppLayout>
+            <AppLayout>{rootDashboard}</AppLayout>
           </ProtectedRoute>
         }
       />
@@ -86,7 +97,7 @@ export default function App() {
       <Route
         path="/attendance"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><Attendance /></AppLayout>
           </ProtectedRoute>
         }
@@ -94,7 +105,7 @@ export default function App() {
       <Route
         path="/training"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><Training /></AppLayout>
           </ProtectedRoute>
         }
@@ -102,7 +113,7 @@ export default function App() {
       <Route
         path="/lesson-plans"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><LessonPlans /></AppLayout>
           </ProtectedRoute>
         }
@@ -110,7 +121,7 @@ export default function App() {
       <Route
         path="/feedback"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><Feedback /></AppLayout>
           </ProtectedRoute>
         }
@@ -118,7 +129,7 @@ export default function App() {
       <Route
         path="/analytics"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><Analytics /></AppLayout>
           </ProtectedRoute>
         }
@@ -126,7 +137,7 @@ export default function App() {
       <Route
         path="/teacher-journey/:id"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><TeacherJourney /></AppLayout>
           </ProtectedRoute>
         }
@@ -142,7 +153,7 @@ export default function App() {
       <Route
         path="/goals"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><Goals /></AppLayout>
           </ProtectedRoute>
         }
@@ -150,8 +161,32 @@ export default function App() {
       <Route
         path="/timetable"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><Timetable /></AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/resources"
+        element={
+          <ProtectedRoute>
+            <AppLayout><Resources /></AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/wellbeing"
+        element={
+          <ProtectedRoute roles={STAFF_ONLY}>
+            <AppLayout><Wellbeing /></AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/find-teacher"
+        element={
+          <ProtectedRoute role="student">
+            <AppLayout><FindTeacher /></AppLayout>
           </ProtectedRoute>
         }
       />

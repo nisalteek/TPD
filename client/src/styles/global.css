@@ -527,6 +527,40 @@ textarea { min-height: 80px; resize: vertical; }
 .timetable-cell.filled.static:hover { border-color: rgba(13,148,136,0.35); }
 .timetable-cell i { color: var(--muted); font-size: 0.9rem; }
 
+/* Resource Library */
+.resource-card { display: flex; flex-direction: column; gap: 6px; }
+.resource-icon {
+  width: 44px; height: 44px; border-radius: 12px; margin-bottom: 6px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+
+/* Wellbeing check-in */
+.wellbeing-scale { display: flex; gap: 8px; margin: 10px 0 16px; flex-wrap: wrap; }
+.wellbeing-option {
+  flex: 1; min-width: 84px; border-radius: 12px; border: 1px solid var(--input-border);
+  background: var(--input-bg); padding: 12px 8px; cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; transition: border-color 0.2s, background 0.2s;
+}
+.wellbeing-option:hover { border-color: var(--primary); }
+.wellbeing-option.selected {
+  border-color: var(--accent); background: linear-gradient(135deg, rgba(2,132,199,0.1), rgba(13,148,136,0.1));
+}
+.wellbeing-number { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+.wellbeing-label { font-size: 0.72rem; color: var(--muted); text-align: center; }
+
+/* Registration role toggle */
+.role-toggle { display: flex; gap: 8px; margin-bottom: 6px; }
+.role-toggle-option {
+  flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--input-border);
+  background: var(--input-bg); color: var(--muted); cursor: pointer; font-weight: 600; font-size: 0.9rem;
+  display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
+}
+.role-toggle-option.active {
+  border-color: var(--primary); color: var(--primary);
+  background: linear-gradient(135deg, rgba(2,132,199,0.1), rgba(13,148,136,0.1));
+}
+
 @media (max-width: 900px) {
   .app-body { flex-direction: column; }
   .sidebar { width: 100%; position: static; }
