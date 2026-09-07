@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
 export default function TeacherProfile() {
   const { user, setUser } = useAuth();
@@ -28,10 +31,9 @@ export default function TeacherProfile() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>My Profile</h1>
-        <p>Keep your professional details up to date.</p>
-      </div>
+      <PageBanner image={BANNER_CLASSROOM} title="My Profile" subtitle="Keep your professional details up to date." />
+
+      <Reveal>
 
       <div className="two-col">
         <GlassCard className="profile-summary">
@@ -56,6 +58,7 @@ export default function TeacherProfile() {
           </form>
         </GlassCard>
       </div>
+      </Reveal>
     </div>
   );
 }

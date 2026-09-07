@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
 const CATEGORY_LABELS = {
   policy: 'Policy',
@@ -80,15 +83,15 @@ export default function Resources() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Resource Library</h1>
-        <p>Shared policies, templates, and training materials — real, downloadable PDFs.</p>
+      <PageBanner image={BANNER_CLASSROOM} title="Resource Library" subtitle="Shared policies, templates, and training materials — real, downloadable PDFs.">
         {user.role === 'admin' && (
-          <button className="btn-primary" onClick={() => setShowForm((s) => !s)}>
+          <button className="btn-primary" style={{ width: 'auto', margin: 0 }} onClick={() => setShowForm((s) => !s)}>
             <i className="fa-solid fa-plus"></i> Upload PDF
           </button>
         )}
-      </div>
+      </PageBanner>
+
+      <Reveal>
 
       {showForm && (
         <GlassCard style={{ marginBottom: 20 }}>
@@ -135,6 +138,7 @@ export default function Resources() {
         ))}
       </div>
       {resources.length === 0 && <p className="muted">No resources uploaded yet.</p>}
+      </Reveal>
     </div>
   );
 }

@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 import { fireConfetti } from '../utils/confetti';
 
 const CATEGORY_LABELS = {
@@ -62,15 +65,15 @@ export default function Goals() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Growth Goals</h1>
-        <p>Set your own professional development targets and track progress toward them.</p>
+      <PageBanner image={BANNER_CLASSROOM} title="Growth Goals" subtitle="Set your own professional development targets and track progress toward them.">
         {user.role === 'teacher' && (
-          <button className="btn-primary" onClick={() => setShowForm((s) => !s)}>
+          <button className="btn-primary" style={{ width: 'auto', margin: 0 }} onClick={() => setShowForm((s) => !s)}>
             <i className="fa-solid fa-plus"></i> New Goal
           </button>
         )}
-      </div>
+      </PageBanner>
+
+      <Reveal>
 
       {user.role === 'admin' && (
         <GlassCard style={{ marginBottom: 20 }}>
@@ -139,6 +142,7 @@ export default function Goals() {
             : 'No goals set yet.'}
         </p>
       )}
+      </Reveal>
     </div>
   );
 }

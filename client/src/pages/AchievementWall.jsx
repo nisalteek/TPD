@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
 const TYPE_ICONS = {
   award: 'fa-trophy',
@@ -19,10 +22,9 @@ export default function AchievementWall() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Achievement Wall</h1>
-        <p>Celebrating professional growth and teaching excellence across the school.</p>
-      </div>
+      <PageBanner image={BANNER_CLASSROOM} title="Achievement Wall" subtitle="Celebrating professional growth and teaching excellence across the school." />
+
+      <Reveal>
 
       <div className="achievement-grid">
         {milestones.map((m) => (
@@ -38,6 +40,7 @@ export default function AchievementWall() {
         ))}
       </div>
       {milestones.length === 0 && <p className="muted">No achievements recorded yet — check back soon.</p>}
+      </Reveal>
     </div>
   );
 }

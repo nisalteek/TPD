@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
 export default function Feedback() {
   const { user } = useAuth();
@@ -25,10 +28,13 @@ export default function Feedback() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Feedback</h1>
-        <p>{user.role === 'admin' ? 'Submit feedback for a teacher and review submissions.' : 'Review the feedback you have received.'}</p>
-      </div>
+      <PageBanner
+        image={BANNER_CLASSROOM}
+        title="Feedback"
+        subtitle={user.role === 'admin' ? 'Submit feedback for a teacher and review submissions.' : 'Review the feedback you have received.'}
+      />
+
+      <Reveal>
 
       {user.role === 'admin' && (
         <GlassCard>
@@ -83,6 +89,7 @@ export default function Feedback() {
         </div>
         {feedback.length === 0 && <p className="muted">No feedback yet.</p>}
       </GlassCard>
+      </Reveal>
     </div>
   );
 }

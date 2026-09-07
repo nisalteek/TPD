@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 import { fireConfetti } from '../utils/confetti';
 
 export default function Training() {
@@ -66,15 +69,13 @@ export default function Training() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Training &amp; Certifications</h1>
-        <p>Track professional development courses and download earned certificates.</p>
+      <PageBanner image={BANNER_CLASSROOM} title="Training & Certifications" subtitle="Track professional development courses and download earned certificates.">
         {user.role === 'teacher' && (
-          <button className="btn-primary" onClick={() => setShowForm((s) => !s)}>
+          <button className="btn-primary" style={{ width: 'auto', margin: 0 }} onClick={() => setShowForm((s) => !s)}>
             <i className="fa-solid fa-plus"></i> Log New Training
           </button>
         )}
-      </div>
+      </PageBanner>
 
       {user.role === 'admin' && (
         <GlassCard>
@@ -98,30 +99,31 @@ export default function Training() {
         </GlassCard>
       )}
 
-      <GlassCard>
-        <table className="data-table">
-          <thead><tr><th>Title</th><th>Provider</th><th>Hours</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>
-            {records.map((r) => (
-              <tr key={r._id}>
-                <td>{r.title}</td>
-                <td>{r.provider || '—'}</td>
-                <td>{r.hours}</td>
-                <td><span className={`status-pill ${r.status}`}>{r.status}</span></td>
-                <td className="row-actions">
-                  {user.role === 'admin' && r.status !== 'completed' && (
-                    <button className="btn-ghost" onClick={() => markCompleted(r._id)}>Mark Completed</button>
-                  )}
-                  {r.certificateIssued && (
-                    <button className="btn-ghost" onClick={() => downloadCertificate(r)}>
-                      <i className="fa-solid fa-download"></i> Certificate
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <Reveal>
+        <GlassCard>
+          <table className="data-table">
+            <thead><tr><th>Title</th><th>Provider</th><th>Hours</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              {records.map((r) => (
+                <tr key={r._id}>
+                  <td>{r.title}</td>
+                  <td>{r.provider || '—'}</td>
+                  <td>{r.hours}</td>
+                  <td><span className={`status-pill ${r.status}`}>{r.status}</span></td>
+                  <td className="row-actions">
+                    {user.role === 'admin' && r.status !== 'completed' && (
+                      <button className="btn-ghost" onClick={() => markCompleted(r._id)}>Mark Completed</button>
+                    )}
+                    {r.certificateIssued && (
+                      <button className="btn-ghost" onClick={() => downloadCertificate(r)}>
+                        <i className="fa-solid fa-download"></i> Certificate
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         {records.length === 0 && (
           <p className="muted">
             {user.role === 'admin' && !selectedTeacherId
@@ -129,7 +131,8 @@ export default function Training() {
               : 'No training records yet.'}
           </p>
         )}
-      </GlassCard>
+        </GlassCard>
+      </Reveal>
     </div>
   );
 }

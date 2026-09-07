@@ -56,7 +56,6 @@ export default function Sidebar() {
   const studentLinks = [
     { to: '/', icon: 'fa-gauge-high', label: 'Dashboard' },
     { to: '/find-teacher', icon: 'fa-magnifying-glass', label: 'Find a Teacher' },
-    { to: '/achievements', icon: 'fa-trophy', label: 'Achievement Wall' },
     { to: '/resources', icon: 'fa-file-pdf', label: 'Resource Library' },
   ];
 

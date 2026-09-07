@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
 export default function LessonPlans() {
   const { user } = useAuth();
@@ -34,15 +37,15 @@ export default function LessonPlans() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Lesson Plans</h1>
-        <p>Draft, submit, and track approval of your lesson plans.</p>
+      <PageBanner image={BANNER_CLASSROOM} title="Lesson Plans" subtitle="Draft, submit, and track approval of your lesson plans.">
         {user.role === 'teacher' && (
-          <button className="btn-primary" onClick={() => setShowForm((s) => !s)}>
+          <button className="btn-primary" style={{ width: 'auto', margin: 0 }} onClick={() => setShowForm((s) => !s)}>
             <i className="fa-solid fa-plus"></i> New Lesson Plan
           </button>
         )}
-      </div>
+      </PageBanner>
+
+      <Reveal>
 
       {showForm && (
         <GlassCard>
@@ -83,6 +86,7 @@ export default function LessonPlans() {
         ))}
       </div>
       {plans.length === 0 && <p className="muted">No lesson plans yet.</p>}
+      </Reveal>
     </div>
   );
 }

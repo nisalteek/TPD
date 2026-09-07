@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/Footer';
 
 export default function Login() {
   const { login } = useAuth();
@@ -24,39 +25,42 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card glass-card">
-        <div className="auth-brand">
-          <i className="fa-solid fa-graduation-cap"></i>
-          <h1>TPD System</h1>
-          <p>Teacher Performance &amp; Development Tracking</p>
+    <div className="auth-shell">
+      <div className="auth-page">
+        <div className="auth-card glass-card">
+          <div className="auth-brand">
+            <i className="fa-solid fa-graduation-cap"></i>
+            <h1>TPD System</h1>
+            <p>Teacher Performance &amp; Development Tracking</p>
+          </div>
+          {error && <div className="alert-error">{error}</div>}
+          <form onSubmit={submit}>
+            <label>Email address</label>
+            <input
+              type="email"
+              required
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              placeholder="you@school.edu"
+            />
+            <label>Password</label>
+            <input
+              type="password"
+              required
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="••••••••"
+            />
+            <button className="btn-primary" type="submit" disabled={loading}>
+              {loading ? 'Signing in…' : 'Sign In'}
+            </button>
+          </form>
+          <p className="auth-switch">
+            New teacher account? <Link to="/register">Register here</Link>
+          </p>
         </div>
-        {error && <div className="alert-error">{error}</div>}
-        <form onSubmit={submit}>
-          <label>Email address</label>
-          <input
-            type="email"
-            required
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            placeholder="you@school.edu"
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            required
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            placeholder="••••••••"
-          />
-          <button className="btn-primary" type="submit" disabled={loading}>
-            {loading ? 'Signing in…' : 'Sign In'}
-          </button>
-        </form>
-        <p className="auth-switch">
-          New teacher account? <Link to="/register">Register here</Link>
-        </p>
       </div>
+      <Footer />
     </div>
   );
 }

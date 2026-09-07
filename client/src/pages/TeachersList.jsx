@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import GlassCard from '../components/GlassCard';
 import { fireConfetti } from '../utils/confetti';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
 export default function TeachersList() {
   const [teachers, setTeachers] = useState([]);
@@ -31,45 +34,44 @@ export default function TeachersList() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Teacher Directory</h1>
-        <p>Manage accounts and recognize achievements.</p>
-      </div>
+      <PageBanner image={BANNER_CLASSROOM} title="Teacher Directory" subtitle="Manage accounts and recognize achievements." />
 
-      <GlassCard>
-        <table className="data-table">
-          <thead>
-            <tr><th>Name</th><th>Subject</th><th>Department</th><th>Points</th><th>Status</th><th>Actions</th></tr>
-          </thead>
-          <tbody>
-            {teachers.map((t) => (
-              <tr key={t._id}>
-                <td>{t.name}<div className="muted small">{t.email}</div></td>
-                <td>{t.subject || '—'}</td>
-                <td>{t.department || '—'}</td>
-                <td><span className="badge">{t.points} pts</span></td>
-                <td>
-                  <span className={`status-pill ${t.isActive ? 'active' : 'inactive'}`}>
-                    {t.isActive ? 'Active' : 'Disabled'}
-                  </span>
-                </td>
-                <td className="row-actions">
-                  <Link to={`/teacher-journey/${t._id}`} className="btn-ghost">
-                    <i className="fa-solid fa-chart-line"></i> 360°
-                  </Link>
-                  <button className="btn-ghost" onClick={() => setMilestoneModal(t)}>
-                    <i className="fa-solid fa-award"></i> Award
-                  </button>
-                  <button className="btn-ghost" onClick={() => toggleActive(t)}>
-                    {t.isActive ? 'Disable' : 'Enable'}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {teachers.length === 0 && <p className="muted">No teachers registered yet.</p>}
-      </GlassCard>
+      <Reveal>
+        <GlassCard>
+          <table className="data-table">
+            <thead>
+              <tr><th>Name</th><th>Subject</th><th>Department</th><th>Points</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              {teachers.map((t) => (
+                <tr key={t._id}>
+                  <td>{t.name}<div className="muted small">{t.email}</div></td>
+                  <td>{t.subject || '—'}</td>
+                  <td>{t.department || '—'}</td>
+                  <td><span className="badge">{t.points} pts</span></td>
+                  <td>
+                    <span className={`status-pill ${t.isActive ? 'active' : 'inactive'}`}>
+                      {t.isActive ? 'Active' : 'Disabled'}
+                    </span>
+                  </td>
+                  <td className="row-actions">
+                    <Link to={`/teacher-journey/${t._id}`} className="btn-ghost">
+                      <i className="fa-solid fa-chart-line"></i> 360°
+                    </Link>
+                    <button className="btn-ghost" onClick={() => setMilestoneModal(t)}>
+                      <i className="fa-solid fa-award"></i> Award
+                    </button>
+                    <button className="btn-ghost" onClick={() => toggleActive(t)}>
+                      {t.isActive ? 'Disable' : 'Enable'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {teachers.length === 0 && <p className="muted">No teachers registered yet.</p>}
+        </GlassCard>
+      </Reveal>
 
       {milestoneModal && (
         <div className="modal-overlay" onClick={() => setMilestoneModal(null)}>

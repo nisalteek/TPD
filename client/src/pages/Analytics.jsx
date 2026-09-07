@@ -3,8 +3,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
-const COLORS = ['#0f2540', '#b8892b', '#3d6b8f', '#8fa9c2', '#d9c39a'];
+const COLORS = ['#7a1e34', '#15803d', '#a83250', '#4ade80', '#4a1220'];
 
 export default function Analytics() {
   const { user } = useAuth();
@@ -25,10 +28,9 @@ export default function Analytics() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Performance Analytics</h1>
-        <p>Visual breakdown of attendance, feedback, and professional growth.</p>
-      </div>
+      <PageBanner image={BANNER_CLASSROOM} title="Performance Analytics" subtitle="Visual breakdown of attendance, feedback, and professional growth." />
+
+      <Reveal>
 
       {user.role === 'admin' && (
         <GlassCard>
@@ -46,11 +48,11 @@ export default function Analytics() {
             <h3>Feedback Rating Breakdown</h3>
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={stats.ratingBreakdown}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(15,37,64,0.1)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(122,30,52,0.1)" />
                 <XAxis dataKey="star" />
                 <YAxis allowDecimals={false} />
                 <Tooltip />
-                <Bar dataKey="count" fill="#0f2540" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="count" fill="#7a1e34" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </GlassCard>
@@ -97,6 +99,7 @@ export default function Analytics() {
       )}
 
       {!stats && user.role === 'admin' && <p className="muted">Select a teacher to view their analytics.</p>}
+      </Reveal>
     </div>
   );
 }

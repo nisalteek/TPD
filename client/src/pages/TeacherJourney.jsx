@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
 // Merges attendance, training, feedback, lesson plans, and milestones for
 // one teacher into a single chronological "Teacher 360" timeline.
@@ -77,55 +80,55 @@ export default function TeacherJourney() {
   if (loading || !teacher) {
     return (
       <div className="page">
-        <div className="page-header"><h1>Teacher Journey</h1><p className="muted">Loading full profile…</p></div>
+        <PageBanner image={BANNER_CLASSROOM} title="Teacher Journey" subtitle="Loading full profile…" />
       </div>
     );
   }
 
   return (
     <div className="page">
-      <div className="journey-header">
-        <div className="journey-avatar">{teacher.name.charAt(0).toUpperCase()}</div>
-        <div>
-          <h1>{teacher.name}'s Journey</h1>
-          <p className="muted">{teacher.subject || 'Subject not set'} · {teacher.department || 'Department not set'}</p>
-        </div>
-      </div>
+      <PageBanner
+        image={BANNER_CLASSROOM}
+        title={`${teacher.name}'s Journey`}
+        subtitle={`${teacher.subject || 'Subject not set'} · ${teacher.department || 'Department not set'}`}
+      />
 
-      <div className="stat-grid">
-        <GlassCard className="stat-card">
-          <i className="fa-solid fa-calendar-check stat-icon"></i>
-          <div><span className="stat-value">{stats?.attendanceRate ?? '—'}%</span><span className="stat-label">Attendance Rate</span></div>
-        </GlassCard>
-        <GlassCard className="stat-card">
-          <i className="fa-solid fa-star stat-icon"></i>
-          <div><span className="stat-value">{stats?.avgRating ?? '—'}</span><span className="stat-label">Average Rating</span></div>
-        </GlassCard>
-        <GlassCard className="stat-card">
-          <i className="fa-solid fa-certificate stat-icon"></i>
-          <div><span className="stat-value">{stats?.completedTrainings ?? '—'}</span><span className="stat-label">Certificates Earned</span></div>
-        </GlassCard>
-        <GlassCard className="stat-card">
-          <i className="fa-solid fa-trophy stat-icon"></i>
-          <div><span className="stat-value">{teacher.points || 0}</span><span className="stat-label">Recognition Points</span></div>
-        </GlassCard>
-      </div>
-
-      <GlassCard>
-        <h3>Evidence Timeline</h3>
-        <p className="muted small">Every training completion, feedback, approved lesson plan, and milestone — combined and ordered by date.</p>
-        <div className="journey-timeline">
-          {events.map((e, i) => (
-            <div key={i} className={`journey-item type-${e.type}`}>
-              <div className="journey-dot"></div>
-              <strong><i className={`fa-solid ${e.icon}`} style={{ marginRight: 8 }}></i>{e.title}</strong>
-              <p className="muted small" style={{ margin: '2px 0' }}>{e.detail}</p>
-              <span className="muted small">{new Date(e.date).toLocaleDateString()}</span>
-            </div>
-          ))}
+      <Reveal>
+        <div className="stat-grid">
+          <GlassCard className="stat-card">
+            <i className="fa-solid fa-calendar-check stat-icon"></i>
+            <div><span className="stat-value">{stats?.attendanceRate ?? '—'}%</span><span className="stat-label">Attendance Rate</span></div>
+          </GlassCard>
+          <GlassCard className="stat-card">
+            <i className="fa-solid fa-star stat-icon"></i>
+            <div><span className="stat-value">{stats?.avgRating ?? '—'}</span><span className="stat-label">Average Rating</span></div>
+          </GlassCard>
+          <GlassCard className="stat-card">
+            <i className="fa-solid fa-certificate stat-icon"></i>
+            <div><span className="stat-value">{stats?.completedTrainings ?? '—'}</span><span className="stat-label">Certificates Earned</span></div>
+          </GlassCard>
+          <GlassCard className="stat-card">
+            <i className="fa-solid fa-trophy stat-icon"></i>
+            <div><span className="stat-value">{teacher.points || 0}</span><span className="stat-label">Recognition Points</span></div>
+          </GlassCard>
         </div>
-        {events.length === 0 && <p className="muted">No evidence recorded yet for this teacher.</p>}
-      </GlassCard>
+
+        <GlassCard>
+          <h3>Evidence Timeline</h3>
+          <p className="muted small">Every training completion, feedback, approved lesson plan, and milestone — combined and ordered by date.</p>
+          <div className="journey-timeline">
+            {events.map((e, i) => (
+              <div key={i} className={`journey-item type-${e.type}`}>
+                <div className="journey-dot"></div>
+                <strong><i className={`fa-solid ${e.icon}`} style={{ marginRight: 8 }}></i>{e.title}</strong>
+                <p className="muted small" style={{ margin: '2px 0' }}>{e.detail}</p>
+                <span className="muted small">{new Date(e.date).toLocaleDateString()}</span>
+              </div>
+            ))}
+          </div>
+          {events.length === 0 && <p className="muted">No evidence recorded yet for this teacher.</p>}
+        </GlassCard>
+      </Reveal>
     </div>
   );
 }

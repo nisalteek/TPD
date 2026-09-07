@@ -2,7 +2,7 @@
 // Call fireConfetti() from anywhere in the app to celebrate a moment
 // (goal completed, certificate downloaded, milestone awarded).
 
-const COLORS = ['#0284c7', '#38bdf8', '#0d9488', '#2dd4bf', '#f59e0b'];
+const COLORS = ['#7a1e34', '#a83250', '#15803d', '#4ade80', '#e8c766'];
 
 export function fireConfetti() {
   const canvas = document.createElement('canvas');

@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
+import PageBanner from '../components/PageBanner';
+import Reveal from '../components/Reveal';
+import { BANNER_CLASSROOM } from '../constants/images';
 
 export default function FindTeacher() {
   const { user, setUser } = useAuth();
@@ -29,10 +32,9 @@ export default function FindTeacher() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1>Find a Teacher</h1>
-        <p>Browse teachers and choose the one you'd like to follow.</p>
-      </div>
+      <PageBanner image={BANNER_CLASSROOM} title="Find a Teacher" subtitle="Browse teachers and choose the one you'd like to follow." />
+
+      <Reveal>
 
       <GlassCard style={{ marginBottom: 20 }}>
         <label>Search by name or subject</label>
@@ -68,6 +70,7 @@ export default function FindTeacher() {
         })}
       </div>
       {filtered.length === 0 && <p className="muted">No teachers match your search.</p>}
+      </Reveal>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Chatbot from './components/Chatbot';
+import Footer from './components/Footer';
 import Loader from './components/Loader';
 
 import Login from './pages/Login';
@@ -37,6 +38,7 @@ function AppLayout({ children }) {
         <Sidebar />
         <main className="app-content">{children}</main>
       </div>
+      <Footer />
       <Chatbot />
     </div>
   );
@@ -145,7 +147,7 @@ export default function App() {
       <Route
         path="/achievements"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute roles={STAFF_ONLY}>
             <AppLayout><AchievementWall /></AppLayout>
           </ProtectedRoute>
         }
